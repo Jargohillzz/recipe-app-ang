@@ -1,0 +1,105 @@
+<div class="d-flex justify-content-center" *ngIf="isLoading">
+  <app-loading class=""></app-loading>
+</div>
+
+<div class="alert alert-danger" *ngIf="error">
+  <p class="m-0">{{ error }}</p>
+</div>
+
+<form (ngSubmit)="onSubmit(f)" #f="ngForm" *ngIf="!isLoading">
+  <div class="row">
+    <div class="col mb-3 error-tab">
+      <div class="form-group">
+        <label for="email">Enter Email:</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          ngModel
+          #email="ngModel"
+          placeholder="enter email"
+          name="email"
+          required
+          email
+        />
+      </div>
+      <div class="error">
+        <p class="alert alert-danger p-2 m-0" *ngIf="email?.invalid">
+          email is invalid
+        </p>
+      </div>
+    </div>
+  </div>
+  <div
+    class=""
+    ngModelGroup="passwords"
+    #passwords="ngModelGroup"
+    matchPassword
+  >
+    <div class="row">
+      <div class="col mb-3 error-tab">
+        <div class="form-group">
+          <label for="password">Enter Pasword:</label>
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            name="password"
+            #password="ngModel"
+            ngModel
+            required
+            pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+          />
+        </div>
+        <div class="error">
+          <p
+            class="alert alert-danger p-2 m-0"
+            *ngIf="password.errors?.required"
+          >
+            password cannot be empty
+          </p>
+          <p
+            class="alert alert-danger p-2 m-0"
+            *ngIf="password.errors?.pattern"
+          >
+            password must contain at least 6 characters which includes at least
+            a letter and number
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="!isLogin">
+      <div class="col mb-3 error-tab">
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Pasword:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            class="form-control"
+            name="confirmPassword"
+            ngModel
+            #confirmPassword="ngModel"
+            required
+          />
+        </div>
+        <p
+          class="alert alert-danger p-2 m-0"
+          *ngIf="
+            confirmPassword.touched && passwords.touched && passwords.invalid
+          "
+        >
+          confirm password does not match your password
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end">
+    <button
+      class="btn btn-success m-0 pb-2 px-4"
+      type="submit"
+      [disabled]="f.invalid"
+    >
+      {{ isLogin ? "Log In" : "Sign Up" }}
+    </button>
+  </div>
+</form>

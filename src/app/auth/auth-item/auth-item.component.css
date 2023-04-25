@@ -1,0 +1,13 @@
+input.ng-invalid.ng-touched {
+  border: 1.5px solid red;
+}
+input:focus {
+  outline: none !important;
+  border: none !important;
+}
+.error {
+  display: none;
+}
+.error-tab:has(input.ng-invalid.ng-touched:not(:focus)) > .error {
+  display: block;
+}
